@@ -5,7 +5,7 @@ const buttonList = ["All","Gaming","Web dev", "ICC World Cup", "Movie" ]
 function ButtonList() {
   return (
     <div className='flex'>
-      {buttonList.map( name =>   <Button name={name}/> )}
+      {buttonList.map( name =>   <Button key={name} name={name}/> )}
     </div>
   )
 }
