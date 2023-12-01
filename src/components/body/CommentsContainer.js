@@ -2,30 +2,30 @@ import React from "react";
 import Comment from "./Comment";
 const commentsData = [
   {
-    name: "AK-47",
-    text: "Jai hind",
+    name: "User - 1",
+    text: "Nice one!!",
     replies: [],
   },
   {
-    name: "Pabitra",
+    name: "User - 2",
     text: "Hi This is awesome",
     replies: [
       {
-        name: "Palash",
-        text: "Chal Jhuthey",
+        name: "Account Admin",
+        text: "Thanks😊",
         replies: [
           {
-            name: "Dibya",
+            name: "Random User - 1",
             text: "+1",
             replies: [],
           },
           {
-            name: "Pabitra",
-            text: "Its true bro",
+            name: "Random user - 2",
+            text: "👌",
             replies: [
               {
-                name: "Palash",
-                text: "Thike hain fir!",
+                name: "Random user - 3",
+                text: "Could be better btw!!",
                 replies: [],
               },
             ],
@@ -33,12 +33,12 @@ const commentsData = [
         ],
       },
       {
-        name: "Herok",
-        text: "Kio bro kio ??",
+        name: "User - 3",
+        text: "Can we add comments",
         replies: [
           {
-            name: "Pabitra",
-            text: "Chill bro !",
+            name: "Account Admin",
+            text: "No. These are just mock comments.",
             replies: [],
           },
         ],
