@@ -2,29 +2,51 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../../utils/appSlice";
-import { YOUTUBE_SEARCH_API } from "../../utils/constants";
+import { YOUTUBE_SEARCH_API, YOUTUBE_SEARCH_BY_KEYWORD_API } from "../../utils/constants";
 import { cacheResults } from "../../utils/SearchSlice";
+import { loadVideos } from "../../utils/videosSlice";
 
 function Head() {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestion, setSuggestion] = useState([]);
+  const [keywordSearchFromSuggestion, setKeywordSearchFromSuggestion] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false);
   const searchCaches = useSelector((store) => store.search);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleToggleMenu = () => {
     dispatch(toggleMenu());
   };
+
   const handleChange = (e) => {
+    setKeywordSearchFromSuggestion(false)
     setSearchQuery(e.target.value);
   };
+
   const handleSearch = async () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
     setSuggestion(json[1]);
-    dispatch(cacheResults({
-      [searchQuery] : json[1]
-    }))
-    setShowSuggestions(true);
+    dispatch(
+      cacheResults({
+        [searchQuery]: json[1],
+      })
+    );
+    if(keywordSearchFromSuggestion) setShowSuggestions(false)
+    else setShowSuggestions(true);
+  };
+  
+  const searchByKeyword = async () => {
+    let searchURL = YOUTUBE_SEARCH_BY_KEYWORD_API.replace('(mykeyword)', searchQuery)
+     let data = await fetch(searchURL)
+     let json = await data.json()
+     dispatch(loadVideos(json.items))
+     setShowSuggestions(false)
+  }
+  const handleClick =  (s) => {
+    setKeywordSearchFromSuggestion(true)
+    setSearchQuery(s)
+    searchByKeyword()
+    setShowSuggestions(false)
   };
   useEffect(() => {
     if (!searchQuery.length) {
@@ -34,7 +56,7 @@ function Head() {
     }
     const timer = setTimeout(() => {
       if (searchCaches[searchQuery]) {
-          setSuggestion(searchCaches[searchQuery])
+        setSuggestion(searchCaches[searchQuery]);
       } else {
         handleSearch();
       }
@@ -65,10 +87,12 @@ function Head() {
             value={searchQuery}
             type="text"
             onChange={handleChange}
-            onBlur={() => setShowSuggestions(false)}
+            // onBlur={() =>{ 
+            //   console.log("On blur")
+            //   setShowSuggestions(false)}}
             onFocus={() => setShowSuggestions(true)}
           />
-          <button className="border border-gray-400 bg-gray-100  rounded-r-full px-5 py-2">
+          <button className="border border-gray-400 bg-gray-100  rounded-r-full px-5 py-2" onClick={searchByKeyword}>
             🔍
           </button>
         </div>
@@ -77,7 +101,12 @@ function Head() {
           <div className="absolute bg-white py-2 px-2 w-[42rem] rounded-xl shadow-xl border border-gray-100 ">
             <ul>
               {suggestion.map((s) => (
-                <li key={s} className="py-2 px-3 hover:bg-gray-100">
+                <li
+                  key={s}
+                  value={s}
+                  className="py-2 px-3 hover:bg-gray-100 cursor-pointer"
+                  onClick={ () =>  handleClick(s)}
+                >
                   🔍 {s}
                 </li>
               ))}
@@ -85,7 +114,7 @@ function Head() {
           </div>
         )}
       </div>
-      <div className="col-span-1 border border-black">
+      <div className="col-span-1 ">
         <img
           className="h-10"
           src="https://cdn-icons-png.flaticon.com/128/64/64572.png"

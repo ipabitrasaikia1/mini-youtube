@@ -4,7 +4,7 @@ import VideoContainer from "./VideoContainer";
 
 function MainContainer() {
   return (
-    <div className="w-full border border-red-600">
+    <div className="w-full">
       <ButtonList />
       <VideoContainer />
     </div>

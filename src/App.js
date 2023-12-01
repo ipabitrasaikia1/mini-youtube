@@ -18,7 +18,7 @@ function App() {
     {
       path:'/watch',
       element:<Watch/>
-    }]
+    },]
   }])
   return (
     <Provider store={store}>

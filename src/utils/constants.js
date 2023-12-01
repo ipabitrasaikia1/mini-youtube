@@ -3,3 +3,5 @@ export const YOUTUBE_VIDEOS_API = " https://youtube.googleapis.com/youtube/v3/vi
 
 
 export const YOUTUBE_SEARCH_API = "http://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q="
+export const OFFSET_LIVE_CHAT = 25
+export const YOUTUBE_SEARCH_BY_KEYWORD_API=`https://www.googleapis.com/youtube/v3/search?part=snippet&chart=mostPopular&maxResults=20&q=(mykeyword)&type=video&key=${GOOGLE_API_KEY}`
