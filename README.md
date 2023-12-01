@@ -1,4 +1,5 @@
-# Youtube like webapp with minimal features using Google APIs
+# Mini-Youtube
+Youtube like webapp with minimal features using Google APIs
 
  - Created YouTube-inspired web app with top Indian videos on homepage.
  - Designed nested comment section for engaging discussions using mock data.
